@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="songlib.view.SongLibController">
   <!-- TODO Add Nodes -->
   <children>
     <SplitPane dividerPositions="0.8192090395480226" focusTraversable="true" layoutX="0.0" layoutY="0.0" orientation="VERTICAL" prefHeight="533.0" prefWidth="552.0">
@@ -21,27 +21,21 @@
                   </font>
                 </Text>
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" x="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" textAlignment="CENTER" x="0.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" textAlignment="CENTER" x="0.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <ListView fx:id="songs" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <ListView fx:id="artists" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
               </children>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="159.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.0" minWidth="10.0" prefWidth="148.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="142.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="71.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="343.0" minWidth="10.0" prefWidth="296.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="8.0" prefWidth="224.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="126.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="321.0" minHeight="0.0" prefHeight="312.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <Button layoutX="14.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Add Song" />
-            <Button layoutX="208.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Delete Song" />
-            <Button layoutX="111.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Edit Song" />
+            <Button fx:id="add" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Add Song" />
+            <Button fx:id="edit" layoutX="208.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Delete Song" />
+            <Button fx:id="delete" layoutX="111.0" layoutY="22.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" text="Edit Song" />
           </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
