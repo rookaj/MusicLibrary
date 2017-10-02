@@ -14,19 +14,45 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
 public class SongLibController {
 
-    @FXML Button add;
-    @FXML Button edit;
-    @FXML Button delete;
     @FXML ListView<String> songs;
     @FXML ListView<String> artists;
+    
     @FXML TextField detailedSong;
     @FXML TextField detailedArtist;
     @FXML TextField detailedAlbum;
     @FXML TextField detailedYear;
+    
+    @FXML TabPane tabPane;
+    
+    @FXML Tab addTab;
+    @FXML TextField addSong;
+    @FXML TextField addArtist;
+    @FXML TextField addAlbum;
+    @FXML TextField addYear;
+    @FXML Button submitAdd;
+    @FXML Button cancelAdd;
+    
+    @FXML Tab editTab;
+    @FXML TextField editSong;
+    @FXML TextField editArtist;
+    @FXML TextField editAlbum;
+    @FXML TextField editYear;
+    @FXML Button submitEdit;
+    @FXML Button cancelEdit;
+    
+    @FXML Tab deleteTab;
+    @FXML TextField deleteSong;
+    @FXML TextField deleteArtist;
+    @FXML TextField deleteAlbum;
+    @FXML TextField deleteYear;
+    @FXML Button submitDelete;
+    @FXML Button cancelDelete;
     
     private ObservableList<String> songList;
     private ObservableList<String> artistList;
@@ -44,7 +70,11 @@ public class SongLibController {
             System.out.println("Library Data File not found.");
             System.exit(0);
         }
-        
+       /* trying to fix scrolling between listviews:
+        songs.addEventFilter(javafx.scene.input.ScrollEvent.ANY, event -> { 
+            System.out.println("ScrollEvent!"); });
+        songs.addEventFilter(javafx.scene.control.ScrollToEvent.ANY, event -> { System.out.println("ScrollToEvent!"); });
+        */
         songs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 int index = songs.getSelectionModel().selectedIndexProperty().intValue();
@@ -53,6 +83,15 @@ public class SongLibController {
                 detailedArtist.setText(artistList.get(index));
                 detailedAlbum.setText(albumList.get(index));
                 detailedYear.setText(yearList.get(index));
+                
+                editSong.setText(songList.get(index));
+                editArtist.setText(artistList.get(index));
+                editAlbum.setText(albumList.get(index));
+                editYear.setText(yearList.get(index));
+                deleteSong.setText(songList.get(index));
+                deleteArtist.setText(artistList.get(index));
+                deleteAlbum.setText(albumList.get(index));
+                deleteYear.setText(yearList.get(index));
             }
         });
         artists.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -63,12 +102,22 @@ public class SongLibController {
                 detailedArtist.setText(artistList.get(index));
                 detailedAlbum.setText(albumList.get(index));
                 detailedYear.setText(yearList.get(index));
+                
+                editSong.setText(songList.get(index));
+                editArtist.setText(artistList.get(index));
+                editAlbum.setText(albumList.get(index));
+                editYear.setText(yearList.get(index));
+                deleteSong.setText(songList.get(index));
+                deleteArtist.setText(artistList.get(index));
+                deleteAlbum.setText(albumList.get(index));
+                deleteYear.setText(yearList.get(index));
             }
         });
 
     }
 
     private void setLibrary() {
+        int index = 0;
         ArrayList<String> songArray = new ArrayList<String>();
         ArrayList<String> artistArray = new ArrayList<String>();
         ArrayList<String> albumArray = new ArrayList<String>();
@@ -88,6 +137,23 @@ public class SongLibController {
         yearList = FXCollections.observableArrayList(yearArray);
         songs.setItems(songList);
         artists.setItems(artistList);
+        
+
+        
+        songs.getSelectionModel().select(index);
+        artists.getSelectionModel().select(index);
+        detailedSong.setText(songList.get(index));
+        detailedArtist.setText(artistList.get(index));
+        detailedAlbum.setText(albumList.get(index));
+        detailedYear.setText(yearList.get(index));
+        editSong.setText(songList.get(index));
+        editArtist.setText(artistList.get(index));
+        editAlbum.setText(albumList.get(index));
+        editYear.setText(yearList.get(index));
+        deleteSong.setText(songList.get(index));
+        deleteArtist.setText(artistList.get(index));
+        deleteAlbum.setText(albumList.get(index));
+        deleteYear.setText(yearList.get(index));
     }
     
     private TreeSet<String> getLibraryData() throws FileNotFoundException {
@@ -109,16 +175,37 @@ public class SongLibController {
         return libraryData;
     }
 
-    public void addSong(ActionEvent e) {
-
+    public void submit(ActionEvent e) {
+        Button b = (Button) e.getSource();
+        if(b == submitAdd) {
+            
+        } else if(b == submitEdit) {
+            
+        } else if(b == submitDelete) {
+            
+        } else {
+            System.out.println("Submit Button Error");
+        }
     }
 
-    public void editSong(ActionEvent e) {
-
-    }
-
-    public void deleteSong(ActionEvent e) {
-
+    public void cancel(ActionEvent e) {
+        Button b = (Button) e.getSource();
+        if(b == cancelAdd) {
+            
+        } else if(b == cancelEdit) {
+            
+            int index = songs.getSelectionModel().selectedIndexProperty().intValue();
+            editSong.setText(songList.get(index));
+            editArtist.setText(artistList.get(index));
+            editAlbum.setText(albumList.get(index));
+            editYear.setText(yearList.get(index));
+            tabPane.getSelectionModel().select(0);
+        } else if(b == cancelDelete) {
+            tabPane.getSelectionModel().select(0);
+            
+        } else {
+            System.out.println("Cancel Button Error");
+        }
     }
 
 }
