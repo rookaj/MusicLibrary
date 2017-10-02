@@ -169,6 +169,7 @@ public class SongLibController {
                 libraryData.add(scanner.next());
             }
             scanner.close();
+            
         }
         
         libraryFile.close();
