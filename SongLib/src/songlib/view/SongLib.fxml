@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="songlib.view.SongLibController">
+<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="songlib.view.SongLibController">
   <!-- TODO Add Nodes -->
   <children>
     <SplitPane dividerPositions="0.7928436911487758" focusTraversable="true" layoutX="0.0" layoutY="0.0" orientation="VERTICAL" prefHeight="533.0" prefWidth="552.0">
@@ -23,10 +23,10 @@
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" x="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" textAlignment="CENTER" x="0.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" textAlignment="CENTER" x="0.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                <TextField fx:id="detailedSong" prefHeight="25.506591796875" prefWidth="128.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedArtist" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedAlbum" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedYear" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedSong" editable="false" prefHeight="25.506591796875" prefWidth="128.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedArtist" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedAlbum" editable="false" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedYear" editable="false" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
               </children>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

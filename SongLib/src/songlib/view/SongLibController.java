@@ -124,7 +124,7 @@ public class SongLibController {
         ArrayList<String> yearArray = new ArrayList<String>();
         
         for(String item: detailedList) {
-            String[] info = item.split(":");
+            String[] info = item.split(":", -1);
             songArray.add(info[0]);
             artistArray.add(info[1]);
             albumArray.add(info[2]);
@@ -137,8 +137,6 @@ public class SongLibController {
         yearList = FXCollections.observableArrayList(yearArray);
         songs.setItems(songList);
         artists.setItems(artistList);
-        
-
         
         songs.getSelectionModel().select(index);
         artists.getSelectionModel().select(index);
@@ -176,14 +174,38 @@ public class SongLibController {
         return libraryData;
     }
 
+    public void add() {
+    	if(addSong.getText().equals("") || addArtist.getText().equals("")) {
+    		System.out.println("Song Name/Artist cannot be blank");
+    	}
+    	
+    	String newSong = addSong.getText() + ":" + addArtist.getText() + ":" + addAlbum.getText() + ":" + addYear.getText();
+    	detailedList.add(newSong);
+    	setLibrary();
+    	System.out.println(newSong);
+    }
+    
+    public void edit() {
+    	String oldSong = detailedSong.getText() + ":" + detailedArtist.getText() + ":" + detailedAlbum.getText() + ":" +detailedYear.getText();
+    	String newSong = editSong.getText() + ":" + editArtist.getText() + ":" + editAlbum.getText() + ":" + editYear.getText();
+    	
+    	detailedList.remove(oldSong);
+    	detailedList.add(newSong);
+    	
+    }
+    
+    public void delete() {
+    	
+    }
+    
     public void submit(ActionEvent e) {
         Button b = (Button) e.getSource();
         if(b == submitAdd) {
-            
+            add();
         } else if(b == submitEdit) {
-            
+            edit();
         } else if(b == submitDelete) {
-            
+            delete();
         } else {
             System.out.println("Submit Button Error");
         }
