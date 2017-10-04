@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="songlib.view.SongLibController">
+<AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="songlib.view.SongLibController">
   <!-- TODO Add Nodes -->
   <children>
     <SplitPane dividerPositions="0.7928436911487758" focusTraversable="true" layoutX="3.0" layoutY="0.0" orientation="VERTICAL" prefHeight="533.0" prefWidth="552.0">
@@ -23,10 +23,10 @@
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" x="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" textAlignment="CENTER" x="0.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                 <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" textAlignment="CENTER" x="0.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                <TextField fx:id="detailedSong" editable="false" prefHeight="25.506591796875" prefWidth="128.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedArtist" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedAlbum" editable="false" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <TextField fx:id="detailedYear" editable="false" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedSong" editable="false" prefHeight="25.506591796875" prefWidth="128.0" promptText="Song" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedArtist" editable="false" prefWidth="200.0" promptText="Artist" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedAlbum" editable="false" prefWidth="200.0" promptText="Album" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="detailedYear" editable="false" prefWidth="200.0" promptText="Year" GridPane.columnIndex="3" GridPane.rowIndex="1" />
               </children>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -39,7 +39,7 @@
                 <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <TitledPane animated="false" layoutX="1.0" layoutY="68.0" prefHeight="350.0000999999975" prefWidth="554.0" text="Song - Artist">
+            <TitledPane animated="false" collapsible="false" layoutX="1.0" layoutY="68.0" prefHeight="350.0000999999975" prefWidth="554.0" text="Your Library (Song - Artist)">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -48,7 +48,7 @@
                 </AnchorPane>
               </content>
               <font>
-                <Font size="20.0" />
+                <Font size="18.0" />
               </font>
             </TitledPane>
           </children>
@@ -93,6 +93,15 @@
                     <TextField fx:id="deleteArtist" editable="false" layoutX="14.0" layoutY="35.0" prefWidth="200.0" promptText="Artist" />
                     <TextField fx:id="deleteAlbum" editable="false" layoutX="214.0" layoutY="14.0" prefWidth="200.0" promptText="Album" />
                     <TextField fx:id="deleteYear" editable="false" layoutX="214.0" layoutY="35.0" prefWidth="200.0" promptText="Year" />
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="errorTab" text="Errors">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <TextArea fx:id="errorText" editable="false" layoutX="4.0" layoutY="0.0" prefHeight="76.0" prefWidth="542.0" wrapText="true" />
                   </children>
                 </AnchorPane>
               </content>

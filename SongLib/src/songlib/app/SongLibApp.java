@@ -1,4 +1,8 @@
+//Alexander Rook
+//Matt Raday
 package songlib.app;
+
+import java.util.logging.LogManager;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +31,7 @@ public class SongLibApp extends Application {
     }
 
     public static void main(String[] args) {
+        LogManager.getLogManager().reset();
         launch(args);
     }
 
