@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="533.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="songlib.view.SongLibController">
   <!-- TODO Add Nodes -->
   <children>
-    <SplitPane dividerPositions="0.7928436911487758" focusTraversable="true" layoutX="0.0" layoutY="0.0" orientation="VERTICAL" prefHeight="533.0" prefWidth="552.0">
+    <SplitPane dividerPositions="0.7928436911487758" focusTraversable="true" layoutX="3.0" layoutY="0.0" orientation="VERTICAL" prefHeight="533.0" prefWidth="552.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
           <children>
@@ -39,22 +39,18 @@
                 <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <GridPane gridLinesVisible="true" layoutX="0.0" layoutY="68.0" prefHeight="350.0" prefWidth="550.0">
-              <children>
-                <Text font="$x1" scaleX="0.9435773561028629" scaleY="0.6392218828679356" strokeType="OUTSIDE" strokeWidth="0.0" text="Song" textAlignment="CENTER" x="0.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Text font="$x1" scaleX="0.9443515424248367" scaleY="0.6480423414709661" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" x="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <ListView fx:id="songs" prefHeight="319.0" prefWidth="307.0" style="" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <ListView fx:id="artists" prefHeight="319.0" prefWidth="232.00009999999747" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-              </children>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="343.0" minWidth="10.0" prefWidth="296.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="8.0" prefWidth="224.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="126.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="321.0" minHeight="0.0" prefHeight="312.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
+            <TitledPane animated="false" layoutX="1.0" layoutY="68.0" prefHeight="350.0000999999975" prefWidth="554.0" text="Song - Artist">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <ListView id="song" fx:id="songs" layoutX="0.0" layoutY="0.0" prefHeight="309.0" prefWidth="542.0" />
+                  </children>
+                </AnchorPane>
+              </content>
+              <font>
+                <Font size="20.0" />
+              </font>
+            </TitledPane>
           </children>
         </AnchorPane>
         <TabPane fx:id="tabPane" prefHeight="99.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
