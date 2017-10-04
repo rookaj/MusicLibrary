@@ -153,7 +153,7 @@ public class SongLibController {
         ArrayList<String> displayArray = new ArrayList<String>();
         
         for(String item: songTreeSet) {
-            String[] info = item.split(":", -1);
+            String[] info = item.split("\t", -1);
             songArray.add(info[0]);
             artistArray.add(info[1]);
             albumArray.add(info[2]);
@@ -194,13 +194,10 @@ public class SongLibController {
 
         while(libraryFile.hasNextLine()) {
             String line = libraryFile.nextLine();
-            Scanner scanner = new Scanner(line);
-            scanner.useDelimiter(",");
-            while(scanner.hasNext()) {
-                libraryData.add(scanner.next());
+            if(!line.equals("")) {
+            	libraryData.add(line);
             }
-            scanner.close();
-            
+           
         }
         
         libraryFile.close();
@@ -215,7 +212,8 @@ public class SongLibController {
             
             while(iter.hasNext() ) {
                 current = iter.next();
-                writer.println(current + ",");
+                //writer.println(current + "\n");
+                writer.println(current);
             }
             writer.close();
         } catch (IOException e) {
@@ -228,7 +226,7 @@ public class SongLibController {
     
     private boolean isDuplicate(String newSong, int oldindex) {
         Iterator<String> iter = songTreeSet.iterator();
-        String[] songDetails = newSong.split(":", -1);
+        String[] songDetails = newSong.split("\t", -1);
         String current = "";
         int counter = 0;
         
@@ -238,7 +236,7 @@ public class SongLibController {
                 counter++;
                 continue;
             }
-            String[] info = current.split(":", -1);
+            String[] info = current.split("\t", -1);
             if(info[0].equalsIgnoreCase(songDetails[0]) && info[1].equalsIgnoreCase(songDetails[1])) {
                 return true;
             }
@@ -257,7 +255,7 @@ public class SongLibController {
     		return;
     	}
     	
-    	String newSong = addSong.getText() + ":" + addArtist.getText() + ":" + addAlbum.getText() + ":" + addYear.getText();
+    	String newSong = addSong.getText() + "\t" + addArtist.getText() + "\t" + addAlbum.getText() + "\t" + addYear.getText();
     	if(isDuplicate(newSong, -1)) {
     	    tabPane.getSelectionModel().select(3);
             errorText.setText("Error adding: " + addSong.getText() + " by " + addArtist.getText() + " already in Library.\n");
@@ -270,6 +268,7 @@ public class SongLibController {
     	} else {
     	    index = songTreeSet.headSet(newSong).size();
     	}
+    	
     	songList.add(index, addSong.getText());
     	artistList.add(index, addArtist.getText());
     	albumList.add(index, addAlbum.getText());
@@ -296,9 +295,9 @@ public class SongLibController {
             
     		return;
     	}
-    	String oldSong = detailedSong.getText() + ":" + detailedArtist.getText() + ":" + detailedAlbum.getText() + ":" + detailedYear.getText();
-    	String newSong = editSong.getText() + ":" + editArtist.getText() + ":" + editAlbum.getText() + ":" + editYear.getText();
-    	String[] info = newSong.split(":", -1);
+    	String oldSong = detailedSong.getText() + "\t" + detailedArtist.getText() + "\t" + detailedAlbum.getText() + "\t" + detailedYear.getText();
+    	String newSong = editSong.getText() + "\t" + editArtist.getText() + "\t" + editAlbum.getText() + "\t" + editYear.getText();
+    	String[] info = newSong.split("\t", -1);
     	int oldindex = songTreeSet.headSet(oldSong).size();
         
     	if(isDuplicate(newSong, oldindex)) {
@@ -333,7 +332,7 @@ public class SongLibController {
     }
     
     private void delete() {
-        String deletedSong = deleteSong.getText() + ":" + deleteArtist.getText() + ":" + deleteAlbum.getText() + ":" + deleteYear.getText();
+        String deletedSong = deleteSong.getText() + "\t" + deleteArtist.getText() + "\t" + deleteAlbum.getText() + "\t" + deleteYear.getText();
         
         if(songTreeSet.contains(deletedSong)) {
             int index = songTreeSet.headSet(deletedSong).size();
