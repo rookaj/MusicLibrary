@@ -1,7 +1,12 @@
+//Alexander Rook
+//Matt Raday
+
 package songlib.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -17,12 +22,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class SongLibController {
 
     @FXML ListView<String> songs;
-    @FXML ListView<String> artists;
     
     @FXML TextField detailedSong;
     @FXML TextField detailedArtist;
@@ -55,44 +60,87 @@ public class SongLibController {
     @FXML Button submitDelete;
     @FXML Button cancelDelete;
     
+    @FXML Tab errorTab;
+    @FXML TextArea errorText;
+    
     private ObservableList<String> displayList;
     private ObservableList<String> songList;
     private ObservableList<String> artistList;
     private ObservableList<String> albumList;
     private ObservableList<String> yearList;
     
-    private TreeSet<String> detailedList;
+    private TreeSet<String> songTreeSet;
     
     public void start() {
 
         try {
-            detailedList = getLibraryData();
-            setLibrary();
+            songTreeSet = getLibraryData();
+            if(songTreeSet.size() > 0) {
+                setLibrary();
+            } else {
+                songList = FXCollections.observableArrayList();
+                artistList = FXCollections.observableArrayList();
+                albumList = FXCollections.observableArrayList();
+                yearList = FXCollections.observableArrayList();
+                displayList = FXCollections.observableArrayList();
+                
+                songs.setItems(displayList);
+                
+                detailedSong.setText("");
+                detailedArtist.setText("");
+                detailedAlbum.setText("");
+                detailedYear.setText("");
+                
+                editSong.setText("");
+                editArtist.setText("");
+                editAlbum.setText("");
+                editYear.setText("");
+                deleteSong.setText("");
+                deleteArtist.setText("");
+                deleteAlbum.setText("");
+                deleteYear.setText("");
+            }
         } catch (FileNotFoundException e) {
-            System.out.println("Library Data File not found.");
-            System.exit(0);
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Library Data File Not Found.\n");
         }
 
         songs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                int index = songs.getSelectionModel().selectedIndexProperty().intValue();
-                
-                detailedSong.setText(songList.get(index));
-                detailedArtist.setText(artistList.get(index));
-                detailedAlbum.setText(albumList.get(index));
-                detailedYear.setText(yearList.get(index));
-                
-                editSong.setText(songList.get(index));
-                editArtist.setText(artistList.get(index));
-                editAlbum.setText(albumList.get(index));
-                editYear.setText(yearList.get(index));
-                deleteSong.setText(songList.get(index));
-                deleteArtist.setText(artistList.get(index));
-                deleteAlbum.setText(albumList.get(index));
-                deleteYear.setText(yearList.get(index));
+                if(songTreeSet.size() != 0) {
+                    int index = songs.getSelectionModel().selectedIndexProperty().intValue();
+                    
+                    detailedSong.setText(songList.get(index));
+                    detailedArtist.setText(artistList.get(index));
+                    detailedAlbum.setText(albumList.get(index));
+                    detailedYear.setText(yearList.get(index));
+                    
+                    editSong.setText(songList.get(index));
+                    editArtist.setText(artistList.get(index));
+                    editAlbum.setText(albumList.get(index));
+                    editYear.setText(yearList.get(index));
+                    deleteSong.setText(songList.get(index));
+                    deleteArtist.setText(artistList.get(index));
+                    deleteAlbum.setText(albumList.get(index));
+                    deleteYear.setText(yearList.get(index));
+                } else {
+                    detailedSong.setText("");
+                    detailedArtist.setText("");
+                    detailedAlbum.setText("");
+                    detailedYear.setText("");
+                    
+                    editSong.setText("");
+                    editArtist.setText("");
+                    editAlbum.setText("");
+                    editYear.setText("");
+                    deleteSong.setText("");
+                    deleteArtist.setText("");
+                    deleteAlbum.setText("");
+                    deleteYear.setText("");
+                }
             }
         });
-
+        
     }
 
     private void setLibrary() {
@@ -103,7 +151,7 @@ public class SongLibController {
         ArrayList<String> yearArray = new ArrayList<String>();
         ArrayList<String> displayArray = new ArrayList<String>();
         
-        for(String item: detailedList) {
+        for(String item: songTreeSet) {
             String[] info = item.split(":", -1);
             songArray.add(info[0]);
             artistArray.add(info[1]);
@@ -134,6 +182,8 @@ public class SongLibController {
         deleteArtist.setText(artistList.get(index));
         deleteAlbum.setText(albumList.get(index));
         deleteYear.setText(yearList.get(index));
+        
+        return;
     }
     
     private TreeSet<String> getLibraryData() throws FileNotFoundException {
@@ -156,94 +206,173 @@ public class SongLibController {
         return libraryData;
     }
     
-
-    private boolean isDuplicate(String newSong) {
-        Iterator<String> iter = detailedList.iterator();
+    private void updateLibrary() {
+        try{
+            Iterator<String> iter = songTreeSet.iterator();
+            String current = "";
+            PrintWriter writer = new PrintWriter("SongLibrary.txt", "UTF-8");
+            
+            while(iter.hasNext() ) {
+                current = iter.next();
+                writer.println(current + ",");
+            }
+            writer.close();
+        } catch (IOException e) {
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Error updating library to file: ." + "SongLibrary.txt\n");
+        }
+        
+        return;
+    }
+    
+    private boolean isDuplicate(String newSong, int oldindex) {
+        Iterator<String> iter = songTreeSet.iterator();
         String[] songDetails = newSong.split(":", -1);
         String current = "";
+        int counter = 0;
         
         while(iter.hasNext() ) {
             current = iter.next();
+            if(counter == oldindex) {
+                counter++;
+                continue;
+            }
             String[] info = current.split(":", -1);
-            if(info[0].equals(songDetails[0]) || info[1].equals(songDetails[1])) {
+            if(info[0].equalsIgnoreCase(songDetails[0]) && info[1].equalsIgnoreCase(songDetails[1])) {
                 return true;
             }
+            counter++;
         }
         
         return false;
     }
     
-    private void add() {       
+    private void add() {     
+        int index = 0;
     	if(addSong.getText().equals("") || addArtist.getText().equals("")) {
-    		System.out.println("Song Name/Artist cannot be blank");
-    		//popup needed
+    	    tabPane.getSelectionModel().select(3);
+            errorText.setText("Song Name/Artist cannot be blank.\n");
+            
     		return;
     	}
     	
     	String newSong = addSong.getText() + ":" + addArtist.getText() + ":" + addAlbum.getText() + ":" + addYear.getText();
-    	if(isDuplicate(newSong)) {
-    	    //popup needed
-    	    System.out.println("Error adding: " + addSong.getText() + " by " + addArtist.getText() + " already in Library.");
+    	if(isDuplicate(newSong, -1)) {
+    	    tabPane.getSelectionModel().select(3);
+            errorText.setText("Error adding: " + addSong.getText() + " by " + addArtist.getText() + " already in Library.\n");
     	    return;
     	}
     	
-    	detailedList.add(newSong);
-    	int index = detailedList.headSet(newSong).size();
-
+    	songTreeSet.add(newSong);
+    	if(songTreeSet.size() == 1) {
+    	    index = 0;
+    	} else {
+    	    index = songTreeSet.headSet(newSong).size();
+    	}
     	songList.add(index, addSong.getText());
     	artistList.add(index, addArtist.getText());
     	albumList.add(index, addAlbum.getText());
         yearList.add(index, addYear.getText());
+    	displayList.add(index, (addSong.getText() + " - " + addArtist.getText()));
     	
     	songs.getSelectionModel().select(index);
+    	
+    	updateLibrary();
+    	
+    	return;
     }
     
     private void edit() {
+        if(songTreeSet.size() == 0) {
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Error editing: There are no songs in the library. Please add song first.\n");
+            return;
+        }
     	String oldSong = detailedSong.getText() + ":" + detailedArtist.getText() + ":" + detailedAlbum.getText() + ":" + detailedYear.getText();
     	String newSong = editSong.getText() + ":" + editArtist.getText() + ":" + editAlbum.getText() + ":" + editYear.getText();
-        detailedList.remove(oldSong);
-    	if(isDuplicate(newSong)) {
-    	    detailedList.add(oldSong);
-            //popup needed
-            System.out.println("Error adding: " + addSong.getText() + " by " + addArtist.getText() + " already in Library.");
+    	String[] info = newSong.split(":", -1);
+    	int oldindex = songTreeSet.headSet(oldSong).size();
+        
+    	if(isDuplicate(newSong, oldindex)) {
+    	    tabPane.getSelectionModel().select(3);
+            errorText.setText("Error editing: " + editSong.getText() + " by " + editArtist.getText() + " already in Library.\n");
             return;
         }
     	
-        int oldindex = detailedList.headSet(oldSong).size();
+    	songTreeSet.remove(oldSong);
         songList.remove(oldindex);
         artistList.remove(oldindex);
+        albumList.remove(oldindex);
+        yearList.remove(oldindex);
+        displayList.remove(oldindex);
 
-    	detailedList.add(newSong);
-    	int index = detailedList.headSet(newSong).size();
+    	songTreeSet.add(newSong);
+    	int index = songTreeSet.headSet(newSong).size();
 
-        songList.add(index, editSong.getText());
-        artistList.add(index, editArtist.getText());
-        albumList.add(index, editAlbum.getText());
-        yearList.add(index, editYear.getText());
+        songList.add(index, info[0]);
+        artistList.add(index, info[1]);
+        albumList.add(index, info[2]);
+        yearList.add(index, info[3]);
+        displayList.add(index, (info[0] + " - " + info[1]));
+
+        
+        songs.getSelectionModel().select(index);
+        
+        updateLibrary();
+        tabPane.getSelectionModel().select(0);
+        return;
     	
     }
     
     private void delete() {
         String deletedSong = deleteSong.getText() + ":" + deleteArtist.getText() + ":" + deleteAlbum.getText() + ":" + deleteYear.getText();
         
-        if(detailedList.contains(deletedSong)) {
-            detailedList.remove(deletedSong);
+        if(songTreeSet.contains(deletedSong)) {
+            int index = songTreeSet.headSet(deletedSong).size();
+            
+            songTreeSet.remove(deletedSong);
+            songList.remove(index);
+            artistList.remove(index);
+            albumList.remove(index);
+            yearList.remove(index);
+            displayList.remove(index);
+            
+            if(index == 0 && songTreeSet.size() != 0) {
+                songs.getSelectionModel().select(0);
+            } else if(songTreeSet.size() != 0) {
+                songs.getSelectionModel().select(index -1);
+            } else {
+                songs.getSelectionModel().clearSelection();
+            }
         } else {
-            //popup needed
-            System.out.println("Error deleting: "+ deleteSong.getText() + " by " + deleteArtist.getText() + " does not exist");
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Error deleting: " + deleteSong.getText() + " by " + deleteArtist.getText() + " does not exist in library.\n");
         }
+        
+        updateLibrary();
+        tabPane.getSelectionModel().select(0);
+        return;
     }
     
     public void submit(ActionEvent e) {
         Button b = (Button) e.getSource();
         if(b == submitAdd) {
             add();
+            
+            addSong.setText("");
+            addArtist.setText("");
+            addAlbum.setText("");
+            addYear.setText("");
         } else if(b == submitEdit) {
             edit();
+            
         } else if(b == submitDelete) {
             delete();
+            
+            
         } else {
-            System.out.println("Submit Button Error");
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Submit Button Error\n");
         }
     }
 
@@ -262,12 +391,15 @@ public class SongLibController {
             editArtist.setText(artistList.get(index));
             editAlbum.setText(albumList.get(index));
             editYear.setText(yearList.get(index));
+            
             tabPane.getSelectionModel().select(0);
+            
         } else if(b == cancelDelete) {
             tabPane.getSelectionModel().select(0);
             
         } else {
-            System.out.println("Cancel Button Error");
+            tabPane.getSelectionModel().select(3);
+            errorText.setText("Cancel Button Error\n");
         }
     }
 
