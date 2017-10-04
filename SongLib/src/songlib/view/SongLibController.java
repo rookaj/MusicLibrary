@@ -156,9 +156,6 @@ public class SongLibController {
         return libraryData;
     }
     
-    private void updateFile() throws FileNotFoundException {
-        
-    }
 
     private boolean isDuplicate(String newSong) {
         Iterator<String> iter = detailedList.iterator();
