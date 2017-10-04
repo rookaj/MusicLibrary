@@ -107,7 +107,7 @@ public class SongLibController {
 
         songs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(songTreeSet.size() != 0) {
+                if(songTreeSet.size() != 0 && !songs.getSelectionModel().isEmpty()) {
                     int index = songs.getSelectionModel().selectedIndexProperty().intValue();
                     
                     detailedSong.setText(songList.get(index));
@@ -189,7 +189,7 @@ public class SongLibController {
     private TreeSet<String> getLibraryData() throws FileNotFoundException {
         
         TreeSet<String> libraryData = new TreeSet<String>();
-        Scanner libraryFile = new Scanner(new File("SongLibrary.txt"));
+        Scanner libraryFile = new Scanner(new File("SongLibrary.txt"), "UTF-16");
 
         while(libraryFile.hasNextLine()) {
             String line = libraryFile.nextLine();
@@ -210,7 +210,7 @@ public class SongLibController {
         try{
             Iterator<String> iter = songTreeSet.iterator();
             String current = "";
-            PrintWriter writer = new PrintWriter("SongLibrary.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("SongLibrary.txt", "UTF-16");
             
             while(iter.hasNext() ) {
                 current = iter.next();
@@ -288,6 +288,13 @@ public class SongLibController {
             errorText.setText("Error editing: There are no songs in the library. Please add song first.\n");
             return;
         }
+        
+        if(editSong.getText().equals("") || editArtist.getText().equals("")) {
+    	    tabPane.getSelectionModel().select(3);
+            errorText.setText("Song Name/Artist cannot be blank.\n");
+            
+    		return;
+    	}
     	String oldSong = detailedSong.getText() + ":" + detailedArtist.getText() + ":" + detailedAlbum.getText() + ":" + detailedYear.getText();
     	String newSong = editSong.getText() + ":" + editArtist.getText() + ":" + editAlbum.getText() + ":" + editYear.getText();
     	String[] info = newSong.split(":", -1);
@@ -329,6 +336,7 @@ public class SongLibController {
         
         if(songTreeSet.contains(deletedSong)) {
             int index = songTreeSet.headSet(deletedSong).size();
+            songs.getSelectionModel().clearSelection();
             
             songTreeSet.remove(deletedSong);
             songList.remove(index);
@@ -337,13 +345,26 @@ public class SongLibController {
             yearList.remove(index);
             displayList.remove(index);
             
-            if(index == 0 && songTreeSet.size() != 0) {
-                songs.getSelectionModel().select(0);
+            if(index == songTreeSet.size() && index != 0) {
+            	songs.getSelectionModel().select(index - 1);
             } else if(songTreeSet.size() != 0) {
-                songs.getSelectionModel().select(index -1);
+            	songs.getSelectionModel().select(index);
             } else {
-                songs.getSelectionModel().clearSelection();
+                detailedSong.setText("");
+                detailedArtist.setText("");
+                detailedAlbum.setText("");
+                detailedYear.setText("");
+                
+                editSong.setText("");
+                editArtist.setText("");
+                editAlbum.setText("");
+                editYear.setText("");
+                deleteSong.setText("");
+                deleteArtist.setText("");
+                deleteAlbum.setText("");
+                deleteYear.setText("");
             }
+            
         } else {
             tabPane.getSelectionModel().select(3);
             errorText.setText("Error deleting: " + deleteSong.getText() + " by " + deleteArtist.getText() + " does not exist in library.\n");
