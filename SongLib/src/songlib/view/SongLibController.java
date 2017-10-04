@@ -75,34 +75,35 @@ public class SongLibController {
 
         try {
             songTreeSet = getLibraryData();
-            if(songTreeSet.size() > 0) {
-                setLibrary();
-            } else {
-                songList = FXCollections.observableArrayList();
-                artistList = FXCollections.observableArrayList();
-                albumList = FXCollections.observableArrayList();
-                yearList = FXCollections.observableArrayList();
-                displayList = FXCollections.observableArrayList();
-                
-                songs.setItems(displayList);
-                
-                detailedSong.setText("");
-                detailedArtist.setText("");
-                detailedAlbum.setText("");
-                detailedYear.setText("");
-                
-                editSong.setText("");
-                editArtist.setText("");
-                editAlbum.setText("");
-                editYear.setText("");
-                deleteSong.setText("");
-                deleteArtist.setText("");
-                deleteAlbum.setText("");
-                deleteYear.setText("");
-            }
+            
         } catch (FileNotFoundException e) {
-            tabPane.getSelectionModel().select(3);
-            errorText.setText("Library Data File Not Found.\n");
+            songTreeSet = new TreeSet<String>();
+        }
+
+        if(songTreeSet.size() > 0) {
+            setLibrary();
+        } else {
+            songList = FXCollections.observableArrayList();
+            artistList = FXCollections.observableArrayList();
+            albumList = FXCollections.observableArrayList();
+            yearList = FXCollections.observableArrayList();
+            displayList = FXCollections.observableArrayList();
+            
+            songs.setItems(displayList);
+            
+            detailedSong.setText("");
+            detailedArtist.setText("");
+            detailedAlbum.setText("");
+            detailedYear.setText("");
+            
+            editSong.setText("");
+            editArtist.setText("");
+            editAlbum.setText("");
+            editYear.setText("");
+            deleteSong.setText("");
+            deleteArtist.setText("");
+            deleteAlbum.setText("");
+            deleteYear.setText("");
         }
 
         songs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
