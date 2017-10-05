@@ -212,7 +212,6 @@ public class SongLibController {
             
             while(iter.hasNext() ) {
                 current = iter.next();
-                //writer.println(current + "\n");
                 writer.println(current);
             }
             writer.close();
